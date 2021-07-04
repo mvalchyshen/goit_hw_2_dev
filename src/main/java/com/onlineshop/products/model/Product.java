@@ -1,15 +1,23 @@
 package com.onlineshop.products.model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Product implements BaseEntity<String>{
 
     private String id;
-    private Long price;
+    private double price;
+    private long saleQuantity;
+    private double salePrice;
 
-    public Product(String id, Long price) {
+    public Product(String id, double price) {
         this.id = id;
         this.price = price;
     }
+
+
 }
