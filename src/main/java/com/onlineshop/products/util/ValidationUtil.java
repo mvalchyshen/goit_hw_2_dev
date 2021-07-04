@@ -1,13 +1,18 @@
 package com.onlineshop.products.util;
 
-public class ValidationUtil implements Validation<Long, Double> {
-    @Override
-    public boolean validSaleQuantity(Long quantity) {
+public class ValidationUtil{
+
+    public static boolean validSaleQuantity(Long quantity) {
         return quantity > 0L;
     }
 
-    @Override
-    public boolean validPrice(Double price) {
+
+    public static boolean validPrice(Double price) {
         return price > 0D;
+    }
+
+    public static boolean validId(String id) {
+        String ids = "ABCDEFGHIJKLMNOPQRSTUVWXUZ";
+        return ids.contains(id);
     }
 }
