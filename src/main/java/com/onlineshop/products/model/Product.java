@@ -9,7 +9,7 @@ public class Product implements BaseEntity<String>{
 
     private String id;
     private Double price;
-    private int saleQuantity;
+    private Long saleQuantity;
     private Double salePrice;
 
     public Product(String id, Double price) {

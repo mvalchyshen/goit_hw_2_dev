@@ -4,10 +4,7 @@ import com.onlineshop.products.model.Product;
 import com.onlineshop.products.repository.BaseRepository;
 import com.onlineshop.products.repository.RepositoryFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService{
@@ -19,13 +16,58 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product createNewProduct(String id, Double price, int saleQuantity, Double salePrice) {
-        return new Product(id,price,saleQuantity,salePrice);
+    public Product createNewProduct(String id, Double price, Long saleQuantity, Double salePrice) {
+        if (validPrice(price) && validPrice(salePrice) && validQuantity(saleQuantity)) {
+            return new Product(id,price,saleQuantity,salePrice);
+        }
+        throw new RuntimeException("Price and Quantity must more or equal 0");
+
+    }
+
+    @Override
+    public Product createNewProduct(String id, Double price) {
+        if (validPrice(price)){
+            return new Product(id, price);
+        }
+        throw new RuntimeException("Price must more or equal 0");
     }
 
     @Override
     public void saveProduct(Product product) {
+        Objects.requireNonNull(product);
         productRepository.save(product);
+    }
+
+    @Override
+    public Product getProduct(Product product) {
+        Objects.requireNonNull(product);
+        return productRepository.get(product.getId());
+    }
+
+    @Override
+    public Product getProductById(String id) {
+        Objects.requireNonNull(id);
+        return productRepository.get(id);
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+        Objects.requireNonNull(product);
+        removeProductById(product.getId());
+    }
+
+    @Override
+    public void removeProductById(String id) {
+        Objects.requireNonNull(id);
+        productRepository.deleteById(id);
+    }
+
+    private boolean validQuantity(Long quantity) {
+        return quantity > 0L;
+    }
+
+    private boolean validPrice(Double price) {
+        return price >= 0D;
     }
 
 
