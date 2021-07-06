@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
                 .mapToObj(x -> productRepository.get(String.valueOf((char) x).toUpperCase(Locale.ROOT)))
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         totalCost = map.entrySet().stream()
-                .mapToDouble(tc -> tc.getKey().pricePerEach(tc.getValue()))
+                .mapToDouble(tc -> productRepository.findById(tc.getKey().getId()).get().pricePerEach(tc.getValue()))
                 .sum();
         return totalCost;
     }
