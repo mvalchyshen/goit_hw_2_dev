@@ -3,6 +3,8 @@ package com.onlineshop.products.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 
 public class Product extends BaseEntityImpl {
 
@@ -37,6 +39,15 @@ public class Product extends BaseEntityImpl {
 
     public Long getSaleQuantity() {
         return saleQuantity;
+    }
+
+    public Double pricePerEach(Long quantity) {
+        Objects.requireNonNull(quantity);
+        if (saleQuantity != null) {
+             return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * salePrice;
+        } else {
+            return super.getPrice() * quantity;
+        }
     }
 
     public void setSaleQuantity(Long saleQuantity) {

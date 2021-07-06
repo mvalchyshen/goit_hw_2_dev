@@ -40,6 +40,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    public void saveProducts(Product... products) {
+        for (Product p: products) {
+            Objects.requireNonNull(p);
+            productRepository.save(p);
+        }
+    }
+
     @Override
     public Product getProduct(Product product) {
         Objects.requireNonNull(product);
@@ -72,13 +79,9 @@ public class ProductServiceImpl implements ProductService {
                 .filter(Character::isAlphabetic)
                 .mapToObj(x -> productRepository.get(String.valueOf((char) x).toUpperCase(Locale.ROOT)))
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        for (Map.Entry<Product, Long> entry : map.entrySet()) {
-            if (entry.getKey().getSaleQuantity() <= entry.getValue()) {
-                totalCost += entry.getKey().getSalePrice();
-            } else {
-                totalCost += entry.getKey().getPrice();
-            }
-        }
+        totalCost = map.entrySet().stream()
+                .mapToDouble(tc -> tc.getKey().pricePerEach(tc.getValue()))
+                .sum();
         return totalCost;
     }
 }

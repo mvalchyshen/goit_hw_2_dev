@@ -16,6 +16,6 @@ public class ValidationUtil {
     }
 
     public static boolean validQuantity(Long quantity) {
-        return quantity > 0;
+        return quantity > 0L;
     }
 }
