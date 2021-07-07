@@ -6,7 +6,7 @@ public interface ProductService {
     Product createNewProduct(String id, Double price, Long saleQuantity, Double salePrice);
     Product createNewProduct(String id, Double price);
     void saveProduct(Product product);
-    Product getProduct(Product product);
+    void saveProducts(Product... products);
     Product getProductById(String id);
     void removeProduct(Product product);
     void removeProductById(String id);

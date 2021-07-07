@@ -43,7 +43,7 @@ public class Product extends BaseEntityImpl {
 
     public Double pricePerEach(Long quantity) {
         Objects.requireNonNull(quantity);
-        if (saleQuantity != null) {
+        if (saleQuantity != null && quantity >= saleQuantity) {
              return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * salePrice;
         } else {
             return super.getPrice() * quantity;
@@ -53,4 +53,6 @@ public class Product extends BaseEntityImpl {
     public void setSaleQuantity(Long saleQuantity) {
         this.saleQuantity = saleQuantity;
     }
+
+
 }

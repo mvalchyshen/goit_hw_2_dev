@@ -7,9 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-public abstract class BaseEntityImpl implements BaseEntity<String > {
+public abstract class BaseEntityImpl implements BaseEntity<String> {
     private String id;
     private Double price;
+
+    public BaseEntityImpl(String id, Double price) {
+        this.id = id;
+        this.price = price;
+    }
 
     @Override
     public String getId() {
@@ -28,8 +33,8 @@ public abstract class BaseEntityImpl implements BaseEntity<String > {
         this.price = price;
     }
 
-    public BaseEntityImpl(String id, Double price) {
-        this.id = id;
-        this.price = price;
+    @Override
+    public String toString() {
+        return "id='" + id;
     }
 }

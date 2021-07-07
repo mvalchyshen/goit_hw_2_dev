@@ -40,18 +40,14 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
     public void saveProducts(Product... products) {
-        for (Product p: products) {
+        for (Product p : products) {
             Objects.requireNonNull(p);
             productRepository.save(p);
         }
     }
 
-    @Override
-    public Product getProduct(Product product) {
-        Objects.requireNonNull(product);
-        return productRepository.get(product.getId());
-    }
 
     @Override
     public Product getProductById(String id) {
@@ -74,14 +70,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Double calculateTotalCost(String products) {
-        Double totalCost = 0.0;
-        Map<Product, Long> map = products.chars()
-                .filter(Character::isAlphabetic)
-                .mapToObj(x -> productRepository.get(String.valueOf((char) x).toUpperCase(Locale.ROOT)))
-                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        totalCost = map.entrySet().stream()
-                .mapToDouble(tc -> productRepository.findById(tc.getKey().getId()).get().pricePerEach(tc.getValue()))
+        double totalCost = 0.0;
+        Map<Product, Long> productsQuantity = getProductsQuantity(products);
+        totalCost = productsQuantity.entrySet().stream()
+                .mapToDouble(entry -> productRepository.findById(entry.getKey().getId()).get().pricePerEach(entry.getValue()))
                 .sum();
         return totalCost;
+    }
+
+    private Map<Product, Long> getProductsQuantity(String products) {
+        return products.chars()
+                .filter(Character::isAlphabetic)
+                .filter(x -> productRepository.existsById(String.valueOf((char) x).toUpperCase(Locale.ROOT)))
+                .mapToObj(x -> productRepository.get(String.valueOf((char) x).toUpperCase(Locale.ROOT)))
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
     }
 }
