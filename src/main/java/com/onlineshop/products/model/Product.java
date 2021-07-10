@@ -1,32 +1,52 @@
 package com.onlineshop.products.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Objects;
 
 
-public class Product extends BaseEntityImpl {
+public class Product implements BaseEntity<String> {
 
-
-    private Double salePrice;
+    private String id;
+    private Double price;
     private Long saleQuantity;
+    private Double salePrice;
+
+    public Double pricePerEach(Long quantity) {
+        Objects.requireNonNull(quantity);
+        if (saleQuantity != null && quantity >= saleQuantity) {
+             return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * salePrice;
+        } else {
+            return price * quantity;
+        }
+    }
 
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public Product(String id, Double price) {
+        this.id = id;
+        this.price = price;
+    }
 
     public Product(String id, Double price, Long saleQuantity, Double salePrice) {
-        super(id, price);
+        this.id = id;
+        this.price = price;
         this.salePrice = salePrice;
         this.saleQuantity = saleQuantity;
     }
 
-    public Product(String id, Double price) {
-        super(id, price);
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @Override
-    public String getId() {
-        return super.getId();
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Double getSalePrice() {
@@ -41,18 +61,7 @@ public class Product extends BaseEntityImpl {
         return saleQuantity;
     }
 
-    public Double pricePerEach(Long quantity) {
-        Objects.requireNonNull(quantity);
-        if (saleQuantity != null && quantity >= saleQuantity) {
-             return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * salePrice;
-        } else {
-            return super.getPrice() * quantity;
-        }
-    }
-
     public void setSaleQuantity(Long saleQuantity) {
         this.saleQuantity = saleQuantity;
     }
-
-
 }
