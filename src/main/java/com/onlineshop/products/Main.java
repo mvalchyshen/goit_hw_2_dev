@@ -7,6 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         ProductService productService = new ProductServiceImpl();
-        System.out.println(productService.calculateTotalPrice(" "));
+        System.out.println(productService.calculateTotalPrice(null));
     }
 }

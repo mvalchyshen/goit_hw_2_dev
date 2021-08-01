@@ -1,6 +1,6 @@
 package com.onlineshop.products.model;
 
-import com.onlineshop.products.model.Product;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,11 +17,23 @@ public class ProductTest {
 
     @Test
     public void pricePerEach() {
-        assertEquals(5.25,product.pricePerEach(4L),accuracy);
+        priceForEachTest(5.25,product.pricePerEach(4L),accuracy);
+    }
+
+    @Test
+    public void pricePerEach1() {
+        priceForEachTest(4.44,product.pricePerEach(2l),accuracy);
     }
 
     @Test
     public void priceForEach() {
         assertThrows(NullPointerException.class,() -> product.pricePerEach(null));
     }
+
+
+    private void priceForEachTest(Double expected, Double actual, Double delta) {
+        assertEquals(expected,actual,delta);
+    }
+
+
 }

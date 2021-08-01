@@ -6,24 +6,29 @@ import com.onlineshop.products.repository.ProductStorage;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService {
     BaseRepository<Product, String> repository = new ProductStorage();
+
     {
         repository.save(new Product("A", 1.25, 3l, 3.0));
         repository.save(new Product("B", 4.25));
         repository.save(new Product("C", 1.0, 6l, 5.0));
         repository.save(new Product("D", 0.75));
     }
+
     @Override
     public Double calculateTotalPrice(String bucket) {
-        Objects.requireNonNull(bucket);
-        Map<Product, Long> productsQuantity = getProductsQuantity(bucket);
-        return productsQuantity.entrySet().stream()
-                .mapToDouble(entry -> repository.findById(entry.getKey().getId()).get().pricePerEach(entry.getValue()))
-                .sum();
+        if (bucket == null || bucket.isEmpty()) {
+            System.out.println("Bucket is empty or equals NULL");
+            return 0D;
+        } else {
+            Map<Product, Long> productsQuantity = getProductsQuantity(bucket);
+            return productsQuantity.entrySet().stream()
+                    .mapToDouble(entry -> repository.findById(entry.getKey().getId()).get().pricePerEach(entry.getValue()))
+                    .sum();
+        }
     }
 
     private Map<Product, Long> getProductsQuantity(String products) {

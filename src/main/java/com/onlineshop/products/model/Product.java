@@ -13,7 +13,7 @@ public class Product implements BaseEntity<String> {
     public Double pricePerEach(Long quantity) {
         Objects.requireNonNull(quantity);
         if (saleQuantity != null && quantity >= saleQuantity) {
-             return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * salePrice;
+             return quantity / saleQuantity * salePrice + (quantity % saleQuantity) * price;
         } else {
             return price * quantity;
         }

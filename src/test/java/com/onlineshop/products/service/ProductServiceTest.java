@@ -1,8 +1,5 @@
 package com.onlineshop.products.service;
 
-import com.onlineshop.products.model.Product;
-import com.onlineshop.products.repository.BaseRepository;
-import com.onlineshop.products.repository.ProductStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +29,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void calcualteWithNotExistingProduct() {
+    public void calculateWithNotExistingProduct() {
         calculateTotalPrice(13.25, "ABCDABAFFFFFFFFFFF");
     }
 
